@@ -9,12 +9,11 @@ export function getAllUsers() {
     return ApiManager.get(backendUrl+"api/users/");
 }
 
-export function getElementsQueried(tags, user=undefined, title=undefined) {
+export function getElementsQueried(tags, user=undefined, title=undefined, limit=undefined) {
     let url = new URL(backendUrl+"api/elements/");
 
-    let tagQueryStr = "";
     if(tags && tags.length && tags.length>0){
-        tagQueryStr = ""
+        let tagQueryStr = "";
         for (let tag of tags){
             tagQueryStr += tag.name+",";
         }
@@ -26,6 +25,10 @@ export function getElementsQueried(tags, user=undefined, title=undefined) {
     }
     if(title && title!=""){
         url.searchParams.append("title", title);
+    }
+    
+    if(limit){
+        url.searchParams.append("limit", limit);
     }
 
     return ApiManager.get(url.toString());

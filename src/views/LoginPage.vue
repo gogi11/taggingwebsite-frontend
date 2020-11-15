@@ -106,8 +106,7 @@ export default {
   .login{  
     width: 70%;  
     overflow: hidden;  
-    margin: auto;  
-    margin: 20 0 0 450px;  
+    margin: auto;
     padding: 0;
     background: #23463f;  
     border-radius: 15px;
@@ -131,7 +130,9 @@ export default {
         1px -1px 0 #fff,
         -1px 1px 0 #fff,
         1px 1px 0 #fff;  
-    padding: 20px;  
+    padding: 20px;
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
   h3{
     color: #23463f; 
@@ -155,6 +156,7 @@ export default {
     border: none;  
     border-radius: 17px;  
     padding-left: 7px;
+    cursor: pointer;
   }
   .white-stripe{
     width: 100%;

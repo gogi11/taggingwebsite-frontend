@@ -1,7 +1,7 @@
 <template>
     <div id="nav">
         <router-link :to='{name:"Home"}'>Home</router-link>
-        <template v-if="!isAuthenticated()">
+        <template v-if="!isAuth">
             <router-link :to='{name:"Login"}'>Login</router-link>
         </template>
         <template v-else>
@@ -13,13 +13,20 @@
 <script>
 import {isAuthenticated} from "../common/TokenManager.js";
 import {logOut} from "../common/LoginManager.js";
+import EventBus from '../common/event-bus.js';
 
 export default {
     name: 'Navigation',
     data(){
         return{
-
+            isAuth: isAuthenticated()
         }
+    },
+    mounted(){
+        EventBus.$on("authChange", (isAuth) => {
+            console.log(isAuth);
+            this.isAuth = isAuth;
+        });
     },
     methods:{
         logOutUser(){

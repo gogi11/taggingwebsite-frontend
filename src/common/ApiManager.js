@@ -5,7 +5,7 @@ export class ApiManager{
     static setHeaders(headers){
         let token = getToken();
         if(token){
-            headers.Authorization = "Bearer "+token
+            headers.Authorization = "Token "+token
         }
         return headers;
     }

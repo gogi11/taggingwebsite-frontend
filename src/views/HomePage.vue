@@ -23,7 +23,7 @@
           >
             <template slot="tag" slot-scope="{ option, remove }">
               <span class="custom__tag">
-                <span class="custom__remove" @click="remove(option)">{{labelText(option)}}</span>
+                <span class="custom__remove" :class="[option.type]" @click="remove(option)">{{labelText(option)}}</span>
               </span>
             </template>
             <template slot="clear" slot-scope="props">
@@ -39,8 +39,19 @@
         </template>
         <template v-else>
           <h1>Results:</h1>
-          <div v-for="(el, index) in elements" :key="index">
-            {{el.title}} {{el.description}}  {{el.tags}}
+          <div class="element">
+            <div class="element-title">Title</div>
+            <div class="element-description">Description</div>
+            <div class="element-tags">Tags</div>
+          </div>
+          <div v-for="(el, index) in elements" :key="index" class="element">
+            <div class="element-title"><p>{{el.title}}</p></div>
+            <div class="element-description"><p>{{el.description}}</p></div>
+            <div class="element-tags">
+              <span v-for="(tag, index) in el.tags" :key="index" class="custom__tag">
+                <span class="custom__remove tag">{{tag.name}}</span>
+              </span>  
+            </div>
           </div>
         </template>
       </div>
@@ -65,11 +76,23 @@ export default {
         allUsers: [],
         title: undefined,
         titleSelected: false,
+        userSelected: false,
         noResultsStr: "Tags are still loading. If they take too much time, refresh the page.",
         elements: [],
       }
     },
     mounted(){
+      getElementsQueried(undefined, undefined, undefined, 10).then((res) => {
+          this.elements = res.data;
+      }).catch((err)=>{  
+        let msg = "";
+        for(let key in err.response.data){
+          msg += key+": " + err.response.data[key]+"<br><br>";
+        }
+        this.$toasted.error(msg);
+      });
+
+
       getAllTags().then((res)=>{
         this.allTags = res.data;
         this.allTags.forEach(tag => {
@@ -78,9 +101,11 @@ export default {
         this.options = JSON.parse(JSON.stringify(this.allTags));
         return getAllUsers().then((response) => {
           this.allUsers = response.data;
-          for(let user of this.allUsers){
-            this.options.push({"name": user.username, "type": "user", "id": user.id})
-          }
+          this.allUsers.forEach((user)=>{
+            user.type="user";
+            user.name=user.username;
+            this.options.push(user);
+          });
           this.noResultsStr = "Oops! No such tag found. Consider changing the search query.";
         }) 
       }).catch((err)=>{
@@ -117,12 +142,20 @@ export default {
         if(tag.type == "title"){
           this.titleSelected = true;
           tag.name = tag.name.replace("Title: ","");
-          this.options.filter((el) => el.type!="title");
+          this.options = this.options.filter((el) => el.type!="title");
+        }
+        if(tag.type == "user"){
+          this.userSelected = true;
+          this.options = this.options.filter((el) => el.type!="user");
         }
       },
       removedTag(tag){
         if(tag.type == "title"){
           this.titleSelected = false;
+        }
+        if(tag.type == "user"){
+          this.userSelected = false;
+          this.options = this.options.concat(this.allUsers);
         }
       },
       searchChanged(query){
@@ -147,6 +180,53 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .element{
+    width: 100%;
+    height: 27px;
+    border-bottom: 2px solid black;
+    div{
+      height: 100%!important;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin: auto;
+      display: inline-block;
+    }
+    .element-title{
+      width: 20%;
+      p{
+        top: 2px;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+    .element-description{
+      width: 50%;
+      p{
+        top: 2px;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+    .element-tags{
+      width: 30%;
+      span{
+        top: 2px;
+        position: relative;
+        cursor: default!important;
+      }
+    }
+  }
+
+
   .main-container{
     width: 80%;
     margin-left: 10%;
@@ -163,13 +243,24 @@ export default {
     border-top-right-radius: 20px;
   }
   .custom__remove{
-    background: #40e4c3;
+    background: #000;
     color: #fff;
     padding: 3px;
     margin-right: 3px;
     border-radius: 3px;
     cursor: pointer;
   }
+
+  .tag{
+    background: #40e4c3;
+  }
+  .user{
+    background: #c93420;
+  }
+  .title{
+    background: #4b83eb;
+  }
+
   .multiselect{
     width: 80%!important;
     display: inline-block;

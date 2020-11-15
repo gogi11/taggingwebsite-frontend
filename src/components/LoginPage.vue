@@ -6,7 +6,7 @@
           <div class="white-stripe">
             <h3>Login</h3>
           </div>
-          <form id="login" method="get">
+          <form id="login" method="get" @submit="logInFormSubmitted">
               <label><b>User Name</b><br>
               </label>    
               <input type="text" v-model="userLogin" class="classy-input" id="Uname" placeholder="Username">    
@@ -15,7 +15,7 @@
               </label>    
               <input type="Password" v-model="passLogin" class="classy-input" id="Pass" placeholder="Password">    
               <br><br>    
-              <input type="button" id="log" value="Log In">       
+              <input type="submit" id="log" value="Log In">       
               <br><br>
           </form>
         </div>
@@ -23,7 +23,7 @@
           <div class="white-stripe">
             <h3>Register</h3>
           </div>
-          <form id="register" method="get">
+          <form id="register" method="get" @submit="registerFormSubmitted">
               <label><b>User Name</b><br>    
               </label>    
               <input type="text" v-model="userRegister" class="classy-input" id="UnameReg" placeholder="Username">    
@@ -32,7 +32,7 @@
               </label>    
               <input type="password" v-model="passRegister" class="classy-input" id="PassReg" placeholder="Password">    
               <br><br>    
-              <input type="button" id="reg" value="Register">       
+              <input type="submit" id="reg" value="Register">       
               <br><br>  
           </form>
         </div>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import {login, register} from "../common/LoginManager.js";
+
 export default {
   name: 'LoginPage',
   props: { },
@@ -55,6 +57,27 @@ export default {
       passRegister: undefined,
     } 
   },
+  methods: {
+    logInFormSubmitted(e){
+      e.preventDefault();
+      login(this.userLogin, this.passLogin).then(()=> this.$router.push({name: "Home"}))
+      .catch((err) => {
+        console.log(err);
+        this.$toasted.error(err);
+      });
+    },
+    registerFormSubmitted(e){
+      e.preventDefault();
+      register(this.userRegister, this.passRegister).then(() => this.$router.push({name: "Home"}))
+      .catch((err) => {
+        let msg = "";
+        for(let key in err.response.data){
+          msg += key+": " + err.response.data[key]+"<br><br>";
+        }
+        this.$toasted.error(msg);
+      });
+    }
+  }
 }
 </script>
 

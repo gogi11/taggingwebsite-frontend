@@ -1,18 +1,18 @@
 <template>
   <div id="app">
+    <NavBar/>
     <div id="background"></div>
-    <LoginPage/>
+    <router-view/>
   </div>
 </template>
 
+
 <script>
-import LoginPage from './components/LoginPage.vue'
+import NavBar from "@/components/Navigation.vue"
 
 export default {
   name: 'App',
-  components: {
-    LoginPage
-  }
+  components: {NavBar}
 }
 </script>
 
@@ -31,5 +31,6 @@ body
 {  
   margin: 0;  
   padding: 0;  
-}  
+}
+
 </style>

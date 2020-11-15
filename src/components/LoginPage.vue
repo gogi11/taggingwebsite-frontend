@@ -37,9 +37,9 @@
           </form>
         </div>
       </div>
-      <a href="#" class="browse">
+      <router-link to="/home" class="browse">
         Or click here to just browse
-      </a>
+      </router-link>
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
       userRegister: undefined,
       passLogin: undefined,
       passRegister: undefined,
-    }
+    } 
   },
 }
 </script>

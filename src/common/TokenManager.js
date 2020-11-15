@@ -4,6 +4,9 @@ export function getToken(){
 export function setToken(token){
     return window.localStorage.setItem("token", token);
 }
-export function logOut(){
-    return window.localStorage.setItem("token", undefined);
+export function removeToken(){
+    return window.localStorage.removeItem("token");
+}
+export function isAuthenticated(){
+    return Boolean(window.localStorage.getItem("token"));
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import LoginPage from '@/components/LoginPage.vue'
+import LoginPage from '@/views/LoginPage.vue'
 
 Vue.use(VueRouter)
 

@@ -1,14 +1,42 @@
 <template>
     <div id="nav">
-      <router-link to="/">Login</router-link>
-      <router-link to="/home">Home</router-link>
-      <router-link to="/about">About</router-link>
+        <router-link :to='{name:"Home"}'>Home</router-link>
+        <template v-if="!isAuthenticated()">
+            <router-link :to='{name:"Login"}'>Login</router-link>
+        </template>
+        <template v-else>
+            <a href="#" @click="logOutUser()">Log Out</a>
+        </template>
     </div>
 </template>
 
 <script>
+import {isAuthenticated} from "../common/TokenManager.js";
+import {logOut} from "../common/LoginManager.js";
+
 export default {
-    name: 'Navigation'    
+    name: 'Navigation',
+    data(){
+        return{
+
+        }
+    },
+    methods:{
+        logOutUser(){
+            logOut().then(()=>{
+                this.$router.push({"name": "Login"});
+            }).catch((err)=>{  
+                let msg = "";
+                for(let key in err.response.data){
+                    msg += key+": " + err.response.data[key]+"<br><br>";
+                }
+                this.$toasted.error(msg);
+            });
+        },
+        isAuthenticated(){
+            return isAuthenticated();
+        }
+    }
 }
 </script>
 

@@ -37,7 +37,7 @@
           </form>
         </div>
       </div>
-      <router-link to="/home" class="browse">
+      <router-link :to='{name:"Home"}' class="browse">
         Or click here to just browse
       </router-link>
   </div>

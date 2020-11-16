@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import LoginPage from '@/views/LoginPage.vue'
 import HomePage from '@/views/HomePage.vue'
 import CreateElementPage from '@/views/CreateElementPage.vue'
+import ElementPage from '@/views/ElementPage.vue'
+import EditElementPage from '@/views/EditElementPage.vue'
 
 Vue.use(VueRouter)
 
@@ -16,6 +18,16 @@ const routes = [
     path: '/create-element',
     name: 'Create Element',
     component: CreateElementPage
+  },
+  {
+    path: '/element/:id',
+    name: 'Element',
+    component: ElementPage
+  },
+  {
+    path: 'edit/element/:id',
+    name: 'Edit Element',
+    component: EditElementPage
   },
   // {
   //   path: '/about',

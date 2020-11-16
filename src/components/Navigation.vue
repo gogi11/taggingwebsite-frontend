@@ -5,6 +5,7 @@
             <router-link :to='{name:"Login"}'>Login</router-link>
         </template>
         <template v-else>
+            <router-link :to='{name:"Create Element"}'>Create Entry</router-link>
             <a href="#" @click="logOutUser()">Log Out</a>
         </template>
     </div>
@@ -55,6 +56,7 @@ export default {
     text-align: left;
     padding: 20px;
     background: #23463f;
+    border-bottom: 2px solid #000;
     a {
         text-decoration: none;
         font-weight: bold;

@@ -42,7 +42,7 @@
               
 
               <br><br>
-              <input type="submit" class="create-entry-button" value="Create Entry">       
+              <input type="submit" class="create-entry-button" value="Update Entry">       
               <br><br>  
           </form>
       </div>
@@ -51,22 +51,33 @@
 
 <script>
 import Multiselect from 'vue-multiselect'
-import {getAllTags} from '../common/SearchManager.js'
-import {createElement} from '../common/ElementManager.js'
+import {getElement, getAllTags} from '../common/SearchManager.js'
+import {updateElement} from '../common/ElementManager.js'
 
 export default {
   name: 'LoginPage',
   components: {Multiselect},
-  props: { },
   data() {
     return {
       title: undefined,
       description: undefined,
       tags: [],
+      originalTags: [],
       options: [],
+      canSubmit: false,
     } 
   },
   mounted(){
+    getElement(this.$route.params.id).then((res)=>{
+        this.title = res.data.title;
+        this.description = res.data.description;
+        this.tags = res.data.tags;
+        this.originalTags = JSON.parse(JSON.stringify(this.tags));
+        this.canSubmit = true;
+    }).catch(() => {
+        this.$toasted.error("Please reload the page");
+      }
+    )
     getAllTags().then((res)=>{
         this.options = res.data;
       }).catch((err)=>{
@@ -79,19 +90,38 @@ export default {
       });
   },
   methods: {
+    tagChanges(){
+      let tags = [];
+      let originalNames = this.originalTags.map((tag) => tag.name);
+      let editedNames = this.tags.map((tag) => tag.name);
+      for(let tagName of originalNames){
+        tags.push({"name": tagName, "to_delete": true})
+      }
+      for(let tagName of editedNames){
+        let stillExistsIndex = originalNames.indexOf(tagName);
+        if(stillExistsIndex > -1){
+          tags[stillExistsIndex].to_delete = false;
+        }else{
+          tags.push({"name": tagName});
+        }
+      }
+      return tags;
+    },
     submit(e){
       e.preventDefault();
-      createElement(this.title, this.description, this.tags).then(()=>{
-        this.$toasted.show("You created the element successfully.");
-        this.$router.push({name: "Home"});
-      }).catch((err)=>{
-        console.error(err);
-        let msg = "";
-        for(let key in err.response.data){
-          msg += key+": " + err.response.data[key]+"<br><br>";
-        }
-        this.$toasted.error(msg);
-      });
+      if(this.canSubmit){
+        updateElement(this.$route.params.id, this.title, this.description, this.tagChanges()).then(()=>{
+          this.$toasted.show("You updated the element successfully.");
+          this.$router.push({name: "Home"});
+        }).catch((err)=>{
+          console.error(err);
+          let msg = "";
+          for(let key in err.response.data){
+            msg += key+": " + err.response.data[key]+"<br><br>";
+          }
+          this.$toasted.error(msg);
+        });
+      }
     },
     searchChanged(query){
       let newOption = {"name": query};

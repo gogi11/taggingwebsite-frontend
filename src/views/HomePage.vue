@@ -39,12 +39,12 @@
         </template>
         <template v-else>
           <h1>Results:</h1>
-          <div class="element">
+          <div class="element default-cursor">
             <div class="element-title">Title</div>
             <div class="element-description">Description</div>
             <div class="element-tags">Tags</div>
           </div>
-          <div v-for="(el, index) in elements" :key="index" class="element">
+          <div v-for="(el, index) in elements" :key="index" class="element" @click="openElement(el)">
             <div class="element-title"><p>{{el.title}}</p></div>
             <div class="element-description"><p>{{el.description}}</p></div>
             <div class="element-tags">
@@ -118,6 +118,9 @@ export default {
       });
     },
     methods:{
+      openElement(element){
+        this.$router.push({name: "Element", params:{"id": element.id}});
+      },
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       },
@@ -125,9 +128,9 @@ export default {
         return this.capitalizeFirstLetter(option.type)+": "+option.name;
       },
       search(){
-        let tags = this.selectedTags.filter((tag) => tag.type="tag");
-        let user = this.selectedTags.find((tag) => tag.type="user");
-        let title = this.selectedTags.find((tag) => tag.type="title");
+        let tags = this.selectedTags.filter((tag) => tag.type=="tag");
+        let user = this.selectedTags.find((tag) => tag.type=="user");
+        let title = this.selectedTags.find((tag) => tag.type=="title");
         getElementsQueried(tags, user, title).then((res) => {
           this.elements = res.data;
         }).catch((err)=>{  
@@ -143,8 +146,7 @@ export default {
           this.titleSelected = true;
           tag.name = tag.name.replace("Title: ","");
           this.options = this.options.filter((el) => el.type!="title");
-        }
-        if(tag.type == "user"){
+        }else if(tag.type == "user"){
           this.userSelected = true;
           this.options = this.options.filter((el) => el.type!="user");
         }
@@ -152,8 +154,7 @@ export default {
       removedTag(tag){
         if(tag.type == "title"){
           this.titleSelected = false;
-        }
-        if(tag.type == "user"){
+        }else if(tag.type == "user"){
           this.userSelected = false;
           this.options = this.options.concat(this.allUsers);
         }
@@ -180,10 +181,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .default-cursor{
+    cursor: default!important;
+  }
   .element{
     width: 100%;
     height: 27px;
     border-bottom: 2px solid black;
+    cursor: pointer;
     div{
       height: 100%!important;
       text-overflow: ellipsis;

@@ -1,4 +1,5 @@
 import {ApiManager} from "./ApiManager.js";
+import { getToken } from "./TokenManager.js";
 const backendUrl = process.env.VUE_APP_BACKEND_URL;
 
 export function getAllTags() {
@@ -8,6 +9,16 @@ export function getAllTags() {
 export function getAllUsers() {
     return ApiManager.get(backendUrl+"api/users/");
 }
+export function getCurrentUser() {
+    return ApiManager.post(backendUrl+"api/me/", {key: getToken()});
+}
+
+
+export function getElement(id) {
+    return ApiManager.get(backendUrl+"api/elements/"+id+"/");
+}
+
+
 
 export function getElementsQueried(tags, user=undefined, title=undefined, limit=undefined) {
     let url = new URL(backendUrl+"api/elements/");

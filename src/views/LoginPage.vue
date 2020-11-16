@@ -62,7 +62,7 @@ export default {
       e.preventDefault();
       login(this.userLogin, this.passLogin).then(()=> this.$router.push({name: "Home"}))
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         this.$toasted.error(err);
       });
     },

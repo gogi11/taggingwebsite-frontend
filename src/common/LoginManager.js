@@ -14,9 +14,8 @@ export function logOut() {
 
 
 export function register(username, password) {
-    return ApiManager.post(backendUrl+"api/users/", {username: username, password: password}).then((res) =>
+    return ApiManager.post(backendUrl+"api/users/", {username: username, password: password}).then(() =>
     {
-        console.log(res.data);
         return login(username, password);
     })
 }

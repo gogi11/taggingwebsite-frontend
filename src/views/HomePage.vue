@@ -41,11 +41,13 @@
           <h1>Results:</h1>
           <div class="element default-cursor">
             <div class="element-title">Title</div>
+            <div class="element-user">Submitted By</div>
             <div class="element-description">Description</div>
             <div class="element-tags">Tags</div>
           </div>
           <div v-for="(el, index) in elements" :key="index" class="element" @click="openElement(el)">
             <div class="element-title"><p>{{el.title}}</p></div>
+            <div class="element-user"><p>{{el.user.username}}</p></div>
             <div class="element-description"><p>{{el.description}}</p></div>
             <div class="element-tags">
               <span v-for="(tag, index) in el.tags" :key="index" class="custom__tag">
@@ -197,6 +199,18 @@ export default {
       margin: auto;
       display: inline-block;
     }
+    .element-user{
+      width: 10%;
+      p{
+        top: 2px;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
     .element-title{
       width: 20%;
       p{
@@ -210,7 +224,7 @@ export default {
       }
     }
     .element-description{
-      width: 50%;
+      width: 40%;
       p{
         top: 2px;
         position: relative;

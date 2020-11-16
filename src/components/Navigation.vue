@@ -25,7 +25,6 @@ export default {
     },
     mounted(){
         EventBus.$on("authChange", (isAuth) => {
-            console.log(isAuth);
             this.isAuth = isAuth;
         });
     },

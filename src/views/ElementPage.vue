@@ -42,10 +42,8 @@ export default {
         this.description = res.data.description.replace("\n", "<br>");
         this.tags = res.data.tags;
         getCurrentUser().then((response)=>{
-          if(response.data.id == res.data.user){
+          if(response.data.id == res.data.user.id){
             this.canEdit = true;
-            console.log(response.data.id)
-            console.log(res.data.user)
           }
         });
       }).catch((err)=>{

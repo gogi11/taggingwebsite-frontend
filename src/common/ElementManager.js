@@ -3,7 +3,6 @@ const backendUrl = process.env.VUE_APP_BACKEND_URL;
 
 export function createElement(title, description, tags) {
     if(!title || title.length < 3){
-        console.log(title);
         return new Promise((resolve, reject) => {
             reject({"response": {"data": {"Title": "You need to type at least 3 charcters."}}});
         });
@@ -18,7 +17,6 @@ export function createElement(title, description, tags) {
 
 export function updateElement(id, title, description, tags) {
     if(!title || title.length < 3){
-        console.log(title);
         return new Promise((resolve, reject) => {
             reject({"response": {"data": {"Title": "You need to type at least 3 charcters."}}});
         });

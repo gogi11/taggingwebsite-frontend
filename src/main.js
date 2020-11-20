@@ -14,15 +14,30 @@ Vue.use(VueQuillEditor,{
       theme: 'snow',
       boundary: document.body,
       modules: {
-          toolbar: [
-              ['bold', 'italic', 'underline', 'strike',
-              'blockquote', 'code-block',
-              { 'list': 'ordered' }, { 'list': 'bullet' },
-              { 'size': [] },
-              { 'color': [] }, { 'background': [] },
-              { 'align': [] },
-              'link', 'image', 'video']
-          ]
+        toolbar: {
+          container: [
+            'bold', 'italic', 'underline', 'strike',
+            'blockquote', 'code-block',
+            { 'list': 'ordered' }, { 'list': 'bullet' },
+            { 'size': [] },
+            { 'color': [] }, { 'background': [] },
+            { 'align': [] },
+            'link', 'image', 'video',
+            'youtube'
+          ],
+          handlers: {
+            'youtube': function() {
+              let urlTxt = prompt("Enter your YouTube URL: ");
+              if(urlTxt.indexOf("embed") == -1){
+                let url = new URL(urlTxt);
+                let videoId = url.searchParams.get("v");
+                urlTxt = "https://www.youtube.com/embed/"+videoId; 
+              }
+              const value = "<iframe src='"+urlTxt+"' frameborder='0'></iframe>";
+              this.quill.container.firstChild.innerHTML += value;
+            }
+          }
+        }
       },
       placeholder: 'Insert text here ...',
       readOnly: false

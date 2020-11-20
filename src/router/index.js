@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import LoginPage from '@/views/LoginPage.vue'
 import HomePage from '@/views/HomePage.vue'
 import CreateElementPage from '@/views/CreateElementPage.vue'
-import ElementPage from '@/views/ElementPage.vue'
+import ViewElementPage from '@/views/ViewElementPage.vue'
 import EditElementPage from '@/views/EditElementPage.vue'
 
 Vue.use(VueRouter)
@@ -22,10 +22,10 @@ const routes = [
   {
     path: '/element/:id',
     name: 'Element',
-    component: ElementPage
+    component: ViewElementPage
   },
   {
-    path: 'edit/element/:id',
+    path: '/edit/element/:id',
     name: 'Edit Element',
     component: EditElementPage
   },
@@ -45,7 +45,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  //mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

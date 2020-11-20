@@ -7,8 +7,13 @@
                 <input type="text" v-model="title" class="classy-input" id="UnameReg" placeholder="Title">    
                 <br><br>    
                 <label><b>Description</b><br>
-                </label>    
-                <textarea v-model="description" class="classy-text-area" id="PassReg" placeholder="Description"/> 
+                </label>
+                <quill-editor
+                    class="quill"
+                    ref="quill"
+                    v-model="description"
+                    @change="onDescriptionChange"
+                />
                 <br><br>
                 <label><b>Tags</b><br>
                 </label>    
@@ -73,11 +78,21 @@ export default {
       }else if (query!=""){
         this.options[this.options.length-1] = newOption;
       }
+    },
+    onDescriptionChange(e){
+      this.description=e.html;
     }
-  }
+  },
 }
 </script>
-
+<style>
+.ql-toolbar{
+  height: 42px;
+}
+.ql-container{
+  height: calc(100% - 42px)!important;
+}
+</style>
 <style scoped>
   .main-container{
     width: 70%;
@@ -126,5 +141,15 @@ export default {
     margin-right: 3px;
     border-radius: 3px;
     cursor: pointer;
+  }
+  .quill{
+    color: #000;
+    background: #fff;
+    height: 250px;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 </style>

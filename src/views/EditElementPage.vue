@@ -11,7 +11,7 @@ import {getElement, getAllTags} from '../common/SearchManager.js'
 import {updateElement} from '../common/ElementManager.js'
 
 export default {
-  name: 'LoginPage',
+  name: 'EditElementPage',
   components: {EditElementForm},
   data() {
     return {
@@ -64,6 +64,7 @@ export default {
     },
     onSubmit(){
       if(this.canSubmit){
+        console.log(this.form.description);
         updateElement(
           this.$route.params.id,
           this.form.title,

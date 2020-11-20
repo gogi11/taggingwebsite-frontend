@@ -11,7 +11,7 @@ import {getAllTags} from '../common/SearchManager.js'
 import {createElement} from '../common/ElementManager.js'
 
 export default {
-  name: 'LoginPage',
+  name: 'CreateElementPage',
   components: {EditElementForm},
   props: { },
   data() {

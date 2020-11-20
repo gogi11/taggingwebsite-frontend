@@ -1,12 +1,12 @@
 <template>
     <div id="nav">
-        <router-link :to='{name:"Home"}'>Home</router-link>
+        <router-link class="button" :to='{name:"Home"}'><div>Home</div></router-link>
         <template v-if="!isAuth">
-            <router-link :to='{name:"Login"}'>Login</router-link>
+            <router-link class="button" :to='{name:"Login"}'><div>Login</div></router-link>
         </template>
         <template v-else>
-            <router-link :to='{name:"Create Element"}'>Create Entry</router-link>
-            <a href="#" @click="logOutUser()">Log Out</a>
+            <router-link class="button" :to='{name:"Create Element"}'><div>Create Entry</div></router-link>
+            <a class="button" href="#" @click="logOutUser()"><div>Log Out</div></a>
         </template>
     </div>
 </template>
@@ -50,24 +50,37 @@ export default {
 <style lang="scss" scoped> 
 #nav {
     position: fixed;
+    z-index: 100;
     top: 0;
     width: 100%;
     text-align: left;
-    padding: 20px;
     background: #23463f;
     border-bottom: 2px solid #000;
-    a {
+    .button{
         text-decoration: none;
         font-weight: bold;
         color: #42b983;
         &.router-link-exact-active {
             color: #5ef0dc;
         }
-        border-right: 2px solid black;
-        box-sizing: border-box;
-        padding: 10px;
+        div{
+            border-right: 2px solid black;
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 0;
+            height: 100%;
+            transition: 0.5s all;
+            padding: 20px;
+            display: inline-block;
+        }
         margin: 0;
         height: 100%;
+    }
+    .button:hover{
+        color: #52df9f;
+        div{
+            background: #083822;
+        }
     }
     a:last-child{
         border-right: none;

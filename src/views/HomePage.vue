@@ -84,8 +84,8 @@ export default {
       }
     },
     mounted(){
-      getElementsQueried(undefined, undefined, undefined, 10).then((res) => {
-          this.elements = res.data;
+      getElementsQueried(undefined).then((res) => {
+          this.elements = res.data.results;
       }).catch((err)=>{  
         let msg = "";
         for(let key in err.response.data){
@@ -96,13 +96,13 @@ export default {
 
 
       getAllTags().then((res)=>{
-        this.allTags = res.data;
+        this.allTags = res.data.results;
         this.allTags.forEach(tag => {
           tag.type = "tag"
         });
         this.options = JSON.parse(JSON.stringify(this.allTags));
         return getAllUsers().then((response) => {
-          this.allUsers = response.data;
+          this.allUsers = response.data.results;
           this.allUsers.forEach((user)=>{
             user.type="user";
             user.name=user.username;
@@ -134,7 +134,7 @@ export default {
         let user = this.selectedTags.find((tag) => tag.type=="user");
         let title = this.selectedTags.find((tag) => tag.type=="title");
         getElementsQueried(tags, user, title).then((res) => {
-          this.elements = res.data;
+          this.elements = res.data.results;
         }).catch((err)=>{  
           let msg = "";
           for(let key in err.response.data){
@@ -244,13 +244,16 @@ export default {
       }
     }
   }
-
+  .results{
+    margin-bottom: 40px;
+  }
 
   .main-container{
     width: 80%;
     margin-left: 10%;
     min-height: 80%;
     margin-top: 30px;
+    margin-bottom: 30px;
     position: absolute;
     border-radius: 20px;
     background: #23463f;

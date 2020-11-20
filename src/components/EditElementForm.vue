@@ -65,6 +65,9 @@ export default {
       options: [],
     } 
   },
+  mounted(){
+    this.$refs.quill.$refs.editor.style.height = "calc(100% - 42px)";
+  },
   methods: {
     submit(e){
       e.preventDefault();
@@ -85,15 +88,7 @@ export default {
   },
 }
 </script>
-<style>
-.ql-toolbar{
-  height: 42px;
-}
-.ql-container{
-  height: calc(100% - 42px)!important;
-}
-</style>
-<style scoped>
+<style lang="scss" scoped>
   .main-container{
     width: 70%;
     overflow: hidden;

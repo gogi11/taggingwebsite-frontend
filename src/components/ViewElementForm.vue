@@ -46,7 +46,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
     .ql-editor{
         border: none!important;
     }

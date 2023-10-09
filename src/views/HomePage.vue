@@ -48,7 +48,7 @@
           <div v-for="(el, index) in elements" :key="index" class="element" @click="openElement(el)">
             <div class="element-title"><p>{{el.title}}</p></div>
             <div class="element-user"><p>{{el.user.username}}</p></div>
-            <div class="element-description"><p>{{el.description}}</p></div>
+            <div class="element-description"><p>{{removeHTMLTags(el.description)}}</p></div>
             <div class="element-tags">
               <span v-for="(tag, index) in el.tags" :key="index" class="custom__tag">
                 <span class="custom__remove tag">{{tag.name}}</span>
@@ -177,7 +177,10 @@ export default {
             this.options.push(newOption)
           }
         }
-      }
+      },
+      removeHTMLTags(str){
+        return str.replace(/<[^>]*>?/gm, '');
+      },
     }
 
 }
